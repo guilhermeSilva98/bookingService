@@ -9,4 +9,6 @@ $(document).ready(function() {
         $("#" + wrapper_name).append('<p><input type="text" id="' + wrapper_name + wrapper_name_next_element_num + '" name="' + wrapper_name + wrapper_name_next_element_num + '" class="form-control"></p>'); //add input box
         $("#" + wrapper_origin).append('<p><select id="' + wrapper_origin + wrapper_origin_next_element_num + '" name="' + wrapper_origin + wrapper_origin_next_element_num + '" class="form-control">' + origin_countries + '</select></p>'); //add select box
     });
+
+    
 });

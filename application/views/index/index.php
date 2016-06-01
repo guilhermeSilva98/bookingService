@@ -79,18 +79,20 @@
                                     </colgroup>
                                     <thead>
                                         <tr>
-                                            <th>Casual Dining</th>
-                                            <th>Bar Service</th>
-                                            <th>Fine Dining</th>
-                                            <th>Banquet Dining</th>
+                                        <?php 
+                                            foreach ($dining_type as $key => $value) {
+                                                echo '<th>'.$value->name.'</th>';
+                                            }
+                                         ?>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>This dining is like a bistro/café.</td>
-                                            <td>Casual service for sandwiches, cakes, cheese plates, salads, alcoholic and non-alcoholic beverages. Guests can choose from a limited menu. Competitors will prepare international cocktails and serve with light snacks.</td>
-                                            <td>This is formal dining with a four course set menu with alcoholic beverages. The service includes the waiter preparing all dishes at the table by flambé, carving or assembling. Appropriate for VIPs.</td>
-                                            <td>This is a three course set menu with coffee and alcoholic beverages in a banquet format.</td>
+                                        <?php 
+                                            foreach ($dining_type as $key => $value) {
+                                                echo '<td>'.$value->description.'</td>';
+                                            }
+                                         ?>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -138,14 +140,11 @@
                                                 <div class="col-sm-4">
                                                     <select id="country" name="country" required="required" class="form-control">
                                                         <option value="">choose a country</option>
-                                                        <option value="AU">AU - Australia</option>
-                                                        <option value="BR">BR - Brasil</option>
-                                                        <option value="CA">CA - Canada</option>
-                                                        <option value="CH">CH - Switzerland</option>
-                                                        <option value="CN">CN - China</option>
-                                                        <option value="DE">DE - Germany</option>
-                                                        <option value="FR">FR - France</option>
-                                                        <option value="IN">IN - India</option>
+                                                        <?php 
+                                                        foreach ($country as $key => $value) {
+                                                            echo '<option value="'.$value->abbrev.'">'.$value->abbrev.' - '.$value->name.'</option>';
+                                                        }
+                                                         ?>
                                                     </select>
                                                 </div>
                                             </div>
@@ -208,14 +207,28 @@
                                             <thead>
                                                 <tr>
                                                 <th>Dining experience</th>
-                                                <th>C1: 01.02.2014</th>
-                                                <th>C2: 02.02.2014</th>
-                                                <th>C3: 03.02.2014</th>
-                                                <th>C4: 04.02.2014</th>
+                                                <?php 
+                                                    foreach ($cday as $key => $value) {
+                                                        echo '<th>'.$value->name.': '.implode('.', array_reverse(explode('-', $value->date))).'</th>';
+                                                    }
+                                                 ?>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
+                                            <?php 
+
+                                                foreach ($seating as $key => $value) {
+                                                    echo '<tr>
+                                                        <td>'.$value->name.'<br/>'.date('H:i', strtotime($value->start)).' - '.date('H:i', strtotime($value->end)).'</td>';
+                                                        foreach ($dining as $a => $b) {
+                                                            if($b->seatingId == $value->id){
+                                                                echo '<td>available: 22 <input type="checkbox" name="c'.$b->compDay.'-d'.$b->dining_type.'-n1"></td>';
+                                                            }
+                                                        }
+                                                }
+
+                                             ?>
+                                                <!-- <tr>
                                                 <td>Casual Dining<br/>10:50 - 12:30</td>
                                                 <td>available: 22 <input type="checkbox" name="c1-d1-n1"></td>
                                                 <td>available: 5 <input type="checkbox" name="c2-d1-n1"></td>
@@ -249,7 +262,7 @@
                                                 <td>available: 5 <input type="checkbox" name="c2-d5-n1"></td>
                                                 <td>available: 12 <input type="checkbox" name="c3-d5-n1"></td>
                                                 <td>available: 32 <input type="checkbox" name="c4-d5-n1"></td>
-                                                </tr>
+                                                </tr> -->
                                             </tbody>
                                         </table>
                                     </div>
@@ -269,156 +282,162 @@
                                     <div class="error-message"></div>
                                     <!-- Nav tabs -->
                                     <ul class="nav nav-tabs" role="tablist">
-                                        <li role="presentation" class="active"><a href="#c1" aria-controls="c1" role="tab" data-toggle="tab">C1: 01.02.2014</a></li>
-                                        <li role="presentation"><a href="#c2" aria-controls="c2" role="tab" data-toggle="tab">C2: 02.02.2014</a></li>
-                                        <li role="presentation"><a href="#c3" aria-controls="c3" role="tab" data-toggle="tab">C3: 03.02.2014</a></li>
-                                        <li role="presentation"><a href="#c4" aria-controls="c4" role="tab" data-toggle="tab">C4: 04.02.2014</a></li>
+                                    <?php 
+
+                                    $cont = 0;
+                                    foreach ($cday as $key => $value) {
+                                        if($cont == 0){
+                                            echo '<li role="presentation" class="active"><a href="#c'.$value->id.'" aria-controls="c'.$value->id.'" role="tab" data-toggle="tab">'.$value->name.': '.implode('.', array_reverse(explode('-', $value->date))).'</a></li>';
+                                            $cont++;
+                                        }else{
+                                            echo '<li role="presentation"><a href="#c'.$value->id.'" aria-controls="c'.$value->id.'" role="tab" data-toggle="tab">'.$value->name.': '.implode('.', array_reverse(explode('-', $value->date))).'</a></li>';
+                                        }
+                                    }
+
+                                     ?>
                                     </ul>
                                     <!-- Tab panes -->
                                     <div class="tab-content">
-                                        <div role="tabpanel" class="tab-pane active" id="c1">
-                                            <input type="hidden" name="day" value="c1">
-                                            <div class="table-responsive">
-                                                <table class="table table-bordered table-striped">
-                                                <thead>
-                                                    <tr>
-                                                    <th>Dining experience</th>
-                                                    <th>Number of seats available<br/>Number of guests to be seated</th>
-                                                    <th>Guest names (if known)</th>
-                                                    <th>Guest country*</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                    <td>Casual Dining<br/>10:50 - 12:30</td>
-                                                    <td>
-                                                        available: 22 <br/><button type="button" class="btn btn-default addguest" id="c1-d1" onclick="">+ Add guest</button>
-                                                    </td>
-                                                    <td id="c1-d1-n">
-                                                        <p><input type="text" id="c1-d1-n1" name="c1-d1-n1" class="form-control"></p>
-                                                        <p><input type="text" id="c1-d1-n2" name="c1-d1-n2" class="form-control"></p>
-                                                        <p><input type="text" id="c1-d1-n3" name="c1-d1-n3" class="form-control"></p>
-                                                        <p><input type="text" id="c1-d1-n4" name="c1-d1-n4" class="form-control"></p>
-                                                    </td>
-                                                    <td id="c1-d1-o">
-                                                        <p>
-                                                        <select id="c1-d1-o1" name="c1-d1-o1" class="form-control">
-                                                            <option value="">choose a country</option>
-                                                            <option value="AU">AU - Australia</option>
-                                                            <option value="BR">BR - Brasil</option>
-                                                            <option value="CA">CA - Canada</option>
-                                                            <option value="CH">CH - Switzerland</option>
-                                                            <option value="CN">CN - China</option>
-                                                            <option value="DE">DE - Germany</option>
-                                                            <option value="FR">FR - France</option>
-                                                            <option value="IN">IN - India</option>
-                                                        </select>
-                                                        </p>
-                                                        <p>
-                                                        <select id="c1-d1-o2" name="c1-d1-o2" class="form-control">
-                                                            <option value="">choose a country</option>
-                                                            <option value="AU">AU - Australia</option>
-                                                            <option value="BR">BR - Brasil</option>
-                                                            <option value="CA">CA - Canada</option>
-                                                            <option value="CH">CH - Switzerland</option>
-                                                            <option value="CN">CN - China</option>
-                                                            <option value="DE">DE - Germany</option>
-                                                            <option value="FR">FR - France</option>
-                                                            <option value="IN">IN - India</option>
-                                                        </select>
-                                                        </p>
-                                                        <p>
-                                                        <select id="c1-d1-o3" name="c1-d1-o3" class="form-control">
-                                                            <option value="">choose a country</option>
-                                                            <option value="AU">AU - Australia</option>
-                                                            <option value="BR">BR - Brasil</option>
-                                                            <option value="CA">CA - Canada</option>
-                                                            <option value="CH">CH - Switzerland</option>
-                                                            <option value="CN">CN - China</option>
-                                                            <option value="DE">DE - Germany</option>
-                                                            <option value="FR">FR - France</option>
-                                                            <option value="IN">IN - India</option>
-                                                        </select>
-                                                        </p>
-                                                        <p>
-                                                        <select id="c1-d1-o4" name="c1-d1-o4" class="form-control">
-                                                            <option value="">choose a country</option>
-                                                            <option value="AU">AU - Australia</option>
-                                                            <option value="BR">BR - Brasil</option>
-                                                            <option value="CA">CA - Canada</option>
-                                                            <option value="CH">CH - Switzerland</option>
-                                                            <option value="CN">CN - China</option>
-                                                            <option value="DE">DE - Germany</option>
-                                                            <option value="FR">FR - France</option>
-                                                            <option value="IN">IN - India</option>
-                                                        </select>
-                                                        </p>
-                                                    </td>
-                                                    </tr>
-                                                    <tr>
-                                                    <td>Casual Dining<br/>13:30 - 14:40</td>
-                                                    <td>
-                                                        available: 22 <br/><button type="button" class="btn btn-default addguest" id="c1-d2" onclick="">+ Add guest</button>
-                                                    </td>
-                                                    <td id="c1-d2-n">
-                                                        <p><input type="text" id="c1-d2-n1" name="c1-d2-n1" class="form-control"></p>
-                                                    </td>
-                                                    <td id="c1-d2-o">
-                                                        <p>
-                                                        <select id="c1-d2-o1" name="c1-d2-o1" class="form-control">
-                                                            <option value="">choose a country</option>
-                                                            <option value="AU">AU - Australia</option>
-                                                            <option value="BR">BR - Brasil</option>
-                                                            <option value="CA">CA - Canada</option>
-                                                            <option value="CH">CH - Switzerland</option>
-                                                            <option value="CN">CN - China</option>
-                                                            <option value="DE">DE - Germany</option>
-                                                            <option value="FR">FR - France</option>
-                                                            <option value="IN">IN - India</option>
-                                                        </select>
-                                                        </p>
-                                                    </td>
-                                                    </tr>
-                                                    <tr>
-                                                    <td>Bar Service<br/>13:15 - 14:45</td>
-                                                    <td>
-                                                        available: 22 <br/><button type="button" class="btn btn-default addguest" id="c1-d3" onclick="">+ Add guest</button>
-                                                    </td>
-                                                    <td id="c1-d3-n">
+                                    <?php 
+                                    $cont = 0;
+                                        foreach ($cday as $key => $value) {
+                                            if($cont == 0){
+                                                echo '<div role="tabpanel" class="tab-pane active" id="c'.$value->id.'">
+                                                        <input type="hidden" name="day" value="c'.$value->id.'">
+                                                        <div class="table-responsive">
+                                                            <table class="table table-bordered table-striped">
+                                                            <thead>
+                                                                <tr>
+                                                                <th>Dining experience</th>
+                                                                <th>Number of seats available<br/>Number of guests to be seated</th>
+                                                                <th>Guest names (if known)</th>
+                                                                <th>Guest country*</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>';
 
-                                                    </td>
-                                                    <td id="c1-d3-o">
 
-                                                    </td>
-                                                    </tr>
-                                                    <tr>
-                                                    <td>Fine Dining<br/>13:00 - 15:15</td>
-                                                    <td>
-                                                        available: 22 <br/><button type="button" class="btn btn-default addguest" id="c1-d4" onclick="">+ Add guest</button>
-                                                    </td>
-                                                    <td id="c1-d4-n">
 
-                                                    </td>
-                                                    <td id="c1-d4-o">
 
-                                                    </td>
-                                                    </tr>
-                                                    <tr>
-                                                    <td>Banquet Dining<br/>12:45 - 15:00</td>
-                                                    <td>
-                                                        available: 22 <br/><button type="button" class="btn btn-default addguest" id="c1-d5" onclick="">+ Add guest</button>
-                                                    </td>
-                                                    <td id="c1-d5-n">
 
-                                                    </td>
-                                                    <td id="c1-d5-o">
+                                                foreach ($seating as $key => $value) {
+                                                    # code...
+                                                }
+                                                                
+                                                echo '
+                                                            </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>';
+                                                $cont++;
+                                            }else{
+                                                echo '<div role="tabpanel" class="tab-pane" id="c'.$value->id.'">
+                                                        <input type="hidden" name="day" value="c'.$value->id.'">
+                                                        <div class="table-responsive">
+                                                            <table class="table table-bordered table-striped">
+                                                            <thead>
+                                                                <tr>
+                                                                <th>Dining experience</th>
+                                                                <th>Number of seats available<br/>Number of guests to be seated</th>
+                                                                <th>Guest names (if known)</th>
+                                                                <th>Guest country*</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                <td>Casual Dining<br/>10:50 - 12:30</td>
+                                                                <td>
+                                                                    available: 22 <br/><button type="button" class="btn btn-default addguest" id="c'.$value->id.'-d1" onclick="">+ Add guest</button>
+                                                                </td>
+                                                                <td id="c'.$value->id.'-d1-n">
+                                                                    <p><input type="text" id="c'.$value->id.'-d1-n1" name="c'.$value->id.'-d1-n1" class="form-control"></p>
+                                                                </td>
+                                                                <td id="c'.$value->id.'-d1-o">
+                                                                    <p>
+                                                                    <select id="c'.$value->id.'-d1-o1" name="c'.$value->id.'-d1-o1" class="form-control">
+                                                                        <option value="">choose a country</option>
+                                                                        <option value="AU">AU - Australia</option>
+                                                                        <option value="BR">BR - Brasil</option>
+                                                                        <option value="CA">CA - Canada</option>
+                                                                        <option value="CH">CH - Switzerland</option>
+                                                                        <option value="CN">CN - China</option>
+                                                                        <option value="DE">DE - Germany</option>
+                                                                        <option value="FR">FR - France</option>
+                                                                        <option value="IN">IN - India</option>
+                                                                    </select>
+                                                                    </p>
+                                                                </td>
+                                                                </tr>
+                                                                <tr>
+                                                                <td>Casual Dining<br/>13:30 - 14:40</td>
+                                                                <td>
+                                                                    available: 22 <br/><button type="button" class="btn btn-default addguest" id="c'.$value->id.'-d2" onclick="">+ Add guest</button>
+                                                                </td>
+                                                                <td id="c'.$value->id.'-d2-n">
+                                                                    <p><input type="text" id="c'.$value->id.'-d2-n1" name="c'.$value->id.'-d2-n1" class="form-control"></p>
+                                                                </td>
+                                                                <td id="c'.$value->id.'-d2-o">
+                                                                    <p>
+                                                                    <select id="c'.$value->id.'-d2-o1" name="c'.$value->id.'-d2-o1" class="form-control">
+                                                                        <option value="">choose a country</option>
+                                                                        <option value="AU">AU - Australia</option>
+                                                                        <option value="BR">BR - Brasil</option>
+                                                                        <option value="CA">CA - Canada</option>
+                                                                        <option value="CH">CH - Switzerland</option>
+                                                                        <option value="CN">CN - China</option>
+                                                                        <option value="DE">DE - Germany</option>
+                                                                        <option value="FR">FR - France</option>
+                                                                        <option value="IN">IN - India</option>
+                                                                    </select>
+                                                                    </p>
+                                                                </td>
+                                                                </tr>
+                                                                <tr>
+                                                                <td>Bar Service<br/>13:15 - 14:45</td>
+                                                                <td>
+                                                                    available: 22 <br/><button type="button" class="btn btn-default addguest" id="c'.$value->id.'-d3" onclick="">+ Add guest</button>
+                                                                </td>
+                                                                <td id="c'.$value->id.'-d3-n">
 
-                                                    </td>
-                                                    </tr>
-                                                </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
+                                                                </td>
+                                                                <td id="c'.$value->id.'-d3-o">
+
+                                                                </td>
+                                                                </tr>
+                                                                <tr>
+                                                                <td>Fine Dining<br/>13:00 - 15:15</td>
+                                                                <td>
+                                                                    available: 22 <br/><button type="button" class="btn btn-default addguest" id="c'.$value->id.'-d4" onclick="">+ Add guest</button>
+                                                                </td>
+                                                                <td id="c'.$value->id.'-d4-n">
+
+                                                                </td>
+                                                                <td id="c'.$value->id.'-d4-o">
+
+                                                                </td>
+                                                                </tr>
+                                                                <tr>
+                                                                <td>Banquet Dining<br/>12:45 - 15:00</td>
+                                                                <td>
+                                                                    available: 22 <br/><button type="button" class="btn btn-default addguest" id="c'.$value->id.'-d5" onclick="">+ Add guest</button>
+                                                                </td>
+                                                                <td id="c'.$value->id.'-d5-n">
+
+                                                                </td>
+                                                                <td id="c'.$value->id.'-d5-o">
+
+                                                                </td>
+                                                                </tr>
+                                                            </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>';
+                                            }
+                                        }
+
+
+                                     ?>
+                                        
                                         <div role="tabpanel" class="tab-pane" id="c2">
                                             <input type="hidden" name="day" value="c2">
                                             <div class="table-responsive">

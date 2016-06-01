@@ -1,0 +1,84 @@
+<tr>
+    <td>Casual Dining<br/>10:50 - 12:30</td>
+    <td>
+        available: 22 <br/><button type="button" class="btn btn-default addguest" id="c'.$value->id.'-d1" onclick="">+ Add guest</button>
+    </td>
+    <td id="c'.$value->id.'-d1-n">
+        <p><input type="text" id="c'.$value->id.'-d1-n1" name="c'.$value->id.'-d1-n1" class="form-control"></p>
+    </td>
+    <td id="c'.$value->id.'-d1-o">
+        <p>
+        <select id="c'.$value->id.'-d1-o1" name="c'.$value->id.'-d1-o1" class="form-control">
+            <option value="">choose a country</option>
+            <option value="AU">AU - Australia</option>
+            <option value="BR">BR - Brasil</option>
+            <option value="CA">CA - Canada</option>
+            <option value="CH">CH - Switzerland</option>
+            <option value="CN">CN - China</option>
+            <option value="DE">DE - Germany</option>
+            <option value="FR">FR - France</option>
+            <option value="IN">IN - India</option>
+        </select>
+        </p>
+    </td>
+    </tr>
+    <tr>
+    <td>Casual Dining<br/>13:30 - 14:40</td>
+    <td>
+        available: 22 <br/><button type="button" class="btn btn-default addguest" id="c'.$value->id.'-d2" onclick="">+ Add guest</button>
+    </td>
+    <td id="c'.$value->id.'-d2-n">
+        <p><input type="text" id="c'.$value->id.'-d2-n1" name="c'.$value->id.'-d2-n1" class="form-control"></p>
+    </td>
+    <td id="c'.$value->id.'-d2-o">
+        <p>
+        <select id="c'.$value->id.'-d2-o1" name="c'.$value->id.'-d2-o1" class="form-control">
+            <option value="">choose a country</option>
+            <option value="AU">AU - Australia</option>
+            <option value="BR">BR - Brasil</option>
+            <option value="CA">CA - Canada</option>
+            <option value="CH">CH - Switzerland</option>
+            <option value="CN">CN - China</option>
+            <option value="DE">DE - Germany</option>
+            <option value="FR">FR - France</option>
+            <option value="IN">IN - India</option>
+        </select>
+        </p>
+    </td>
+    </tr>
+    <tr>
+    <td>Bar Service<br/>13:15 - 14:45</td>
+    <td>
+        available: 22 <br/><button type="button" class="btn btn-default addguest" id="c'.$value->id.'-d3" onclick="">+ Add guest</button>
+    </td>
+    <td id="c'.$value->id.'-d3-n">
+
+    </td>
+    <td id="c'.$value->id.'-d3-o">
+
+    </td>
+    </tr>
+    <tr>
+    <td>Fine Dining<br/>13:00 - 15:15</td>
+    <td>
+        available: 22 <br/><button type="button" class="btn btn-default addguest" id="c'.$value->id.'-d4" onclick="">+ Add guest</button>
+    </td>
+    <td id="c'.$value->id.'-d4-n">
+
+    </td>
+    <td id="c'.$value->id.'-d4-o">
+
+    </td>
+    </tr>
+    <tr>
+    <td>Banquet Dining<br/>12:45 - 15:00</td>
+    <td>
+        available: 22 <br/><button type="button" class="btn btn-default addguest" id="c'.$value->id.'-d5" onclick="">+ Add guest</button>
+    </td>
+    <td id="c'.$value->id.'-d5-n">
+
+    </td>
+    <td id="c'.$value->id.'-d5-o">
+
+    </td>
+    </tr>

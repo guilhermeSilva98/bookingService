@@ -1,0 +1,18 @@
+<?php 
+/**
+* 
+*/
+class UserModel extends CI_Model
+{
+	
+	function __construct()
+	{
+		parent::__construct();
+	}
+
+	function country(){
+		$sel = $this->db->get('country');
+		return $sel->result();
+	}
+}
+ ?>
