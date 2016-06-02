@@ -102,11 +102,11 @@
                             </div>
                         </div>
 
+                        <hr class="hr-extended">
 
                         <div id="booking_contact_guest_regulations" class="step">
-                        <hr class="hr-extended">
                             <h1 class="page-header">Booking contact details and guest regulations</h1>
-                            <form action="/bookingService/index/checkBooking" class="form-horizontal">
+                            <form action="#" class="form-horizontal">
                                 <fieldset>
                                     <div class="panel panel-default">
                                         <div class="panel-heading"><h3 class="panel-title">Booking Contact</h3></div>
@@ -142,7 +142,7 @@
                                                         <option value="">choose a country</option>
                                                         <?php 
                                                         foreach ($country as $key => $value) {
-                                                            echo '<option value="'.$value->id.'">'.$value->abbrev.' - '.$value->name.'</option>';
+                                                            echo '<option value="'.$value->abbrev.'">'.$value->abbrev.' - '.$value->name.'</option>';
                                                         }
                                                          ?>
                                                     </select>
@@ -187,119 +187,181 @@
                                         </div>
                                     </div>
                                 </fieldset>
-                                <button class="btn btn-primary" name="bookingType" type="submit" value="individual">Continue booking for<strong> an individual</strong></button>
-                                <button class="btn btn-primary" name="bookingType" type="submit" value="group">Continue booking for<strong> a group</strong></button>
+                                <button class="btn btn-primary" name="agree-individual" type="submit" data-target="#booking_request" data-subtarget="#individual">Continue booking for<strong> an individual</strong></button>
+                                <button class="btn btn-primary" name="agree-group" type="submit" data-target="#booking_request" data-subtarget="#group">Continue booking for<strong> a group</strong></button>
                             </form>
                         </div>
 
-            <!-- for guest only - end -->
-                        
                         <hr class="hr-extended">
 
-            <!-- for logged in user only - begin -->
-                        <div id="reservation_management">
-                                <h1>Reservation management</h1>
-                                <form action="#">
-                                    <fieldset>
-                                        <div class="table-responsive">
-                                            <table class="table table-bordered table-striped">
-                                            <colgroup>
-                                                <col style="width: 5%">
-                                                <col style="width: 30%">
-                                                <col style="width: 10%">
-                                                <col style="width: 30%">
-                                                <col style="width: 10%">
-                                                <col style="width: 5%">
-                                                <col style="width: 5%">
-                                                <col style="width: 5%">
-                                                <col style="width: 5%">
-                                            </colgroup>
-                                            <thead>
-                                                <tr>
-                                                <th rowspan="2">Day</th>
-                                                <th rowspan="2">Seating</th>
-                                                <th rowspan="2">Booking No.</th>
-                                                <th rowspan="2">Guests</th>
-                                                <th rowspan="2">Status</th>
-                                                <th colspan="4">Action</th>
-                                                </tr>
-                                                <tr>
-                                                <th>Confirm</th>
-                                                <th>Decline</th>
-                                                <th>Waitlist</th>
-                                                <th>Reschedule</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                <td>C2</td>
-                                                <td>Casual Dining 10:50 - 12:30</td>
-                                                <td><span title="Sarah Rogers, WSI, +51342319531, sarah.rogers@worldskills.org, US">2015000008</span></td>
-                                                <td>1. Jimmy Hendrix US</td>
-                                                <td>requested</td>
-                                                <td><p class="text-center"><input type="radio" name="2015000008-1" value="confirm"></p></td>
-                                                <td><p class="text-center"><input type="radio" name="2015000008-1" value="decline"></p></td>
-                                                <td><p class="text-center"><input type="radio" name="2015000008-1" value="waitlist"></p></td>
-                                                <td><p class="text-center"><input type="radio" name="2015000008-1" value="reschedule"></p></td>
-                                                </tr>
-                                                <tr>
+                        <div id="booking_request" class="step">
+                            <h1 class="page-header">Booking request</h1>
 
-                                                <td>C2</td>
-                                                <td>Casual Dining 10:50 - 12:30</td>
-                                                <td><span title="Sarah Rogers, WSI, +51342319531, sarah.rogers@worldskills.org, US">2015000008</span></td>
-                                                <td>2. Joe Cocker US</td>
-                                                <td>requested</td>
-                                                <td><p class="text-center"><input type="radio" name="2015000008-2" value="confirm"></p></td>
-                                                <td><p class="text-center"><input type="radio" name="2015000008-2" value="decline"></p></td>
-                                                <td><p class="text-center"><input type="radio" name="2015000008-2" value="waitlist"></p></td>
-                                                <td><p class="text-center"><input type="radio" name="2015000008-2" value="reschedule"></p></td>
-                                                </tr>
+                            <!-- group (depending on selected button on form before) -->
+                            <form action="#" id="group" class="step">
+                                <fieldset>
+                                    <legend>Group</legend>
+                                    <p>Booking a group</p>
+                                    <!-- message -->
+                                    <div class="error-message"></div>
+                                    <!-- Nav tabs -->
+                                    <ul class="nav nav-tabs" role="tablist">
+                                    <?php 
 
-                                                <tr>
-                                                <td>C2</td>
-                                                <td>Casual Dining 10:50 - 12:30</td>
-                                                <td><span title="Sarah Rogers, WSI, +51342319531, sarah.rogers@worldskills.org, US">2015000008</span></td>
-                                                <td>3. Jennifer Celebrity US</td>
-                                                <td>declined</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                </tr>
+                                    $cont = 0;
+                                    foreach ($cday as $key => $value) {
+                                        if($cont == 0){
+                                            echo '<li role="presentation" class="active"><a href="#c'.$value->id.'" aria-controls="c'.$value->id.'" role="tab" data-toggle="tab">'.$value->name.': '.implode('.', array_reverse(explode('-', $value->date))).'</a></li>';
+                                            $cont++;
+                                        }else{
+                                            echo '<li role="presentation"><a href="#c'.$value->id.'" aria-controls="c'.$value->id.'" role="tab" data-toggle="tab">'.$value->name.': '.implode('.', array_reverse(explode('-', $value->date))).'</a></li>';
+                                        }
+                                    }
 
-                                                <tr>
-                                                <td>C2</td>
-                                                <td>Casual Dining 10:50 - 12:30</td>
-                                                <td><span title="Sarah Rogers, WSI, +51342319531, sarah.rogers@worldskills.org, US">2015000008</span></td>
-                                                <td>4. Simon Bartley UK</td>
-                                                <td>confirmed</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                </tr>
+                                     ?>
+                                    </ul>
+                                    <!-- Tab panes -->
+                                    <div class="tab-content">
+                                    <?php 
+                                    $cont = 0;
+                                        foreach ($cday as $key => $value) {
+                                            if($cont == 0){
+                                                echo '<div role="tabpanel" class="tab-pane active" id="c'.$value->id.'">
+                                                        <input type="hidden" name="day" value="c'.$value->id.'">
+                                                        <div class="table-responsive">
+                                                            <table class="table table-bordered table-striped">
+                                                            <thead>
+                                                                <tr>
+                                                                <th>Dining experience</th>
+                                                                <th>Number of seats available<br/>Number of guests to be seated</th>
+                                                                <th>Guest names (if known)</th>
+                                                                <th>Guest country*</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>';
 
-                                                <tr>
-                                                <td>C2</td>
-                                                <td>Casual Dining 10:50 - 12:30</td>
-                                                <td><span title="Sarah Rogers, WSI, +51342319531, sarah.rogers@worldskills.org, US">2015000008</span></td>
-                                                <td>5. Nieman Anders AU</td>
-                                                <td>waitlisted</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                </tr>
-                                            </tbody>
-                                            </table>
-                                        </div>
-                                    </fieldset>
-                                    <button class="btn btn-default" type="submit" name="create-guest-list">Create guest list</button>
-                                    <button class="btn btn-default" type="submit" name="send-emails">Send emails</button>
-                                    <button class="btn btn-primary" type="submit" name="save-confirmations">Save changes</button>
-                                </form>
+
+
+
+
+                                                foreach ($seating as $a => $b) {
+                                                    echo '<tr>
+                                                            <td>'.$b->name.'<br/>'.date('H:i', strtotime($b->start)).' - '.date('H:i', strtotime($b->end)).'</td>
+                                                            <td>
+                                                                available: 22 <br/><button type="button" class="btn btn-default addguest" id="c'.$value->id.'-d'.$b->id.'" onclick="">+ Add guest</button>
+                                                            </td>
+                                                            <td id="c'.$value->id.'-d'.$b->id.'-n">
+                                                                <p><input type="text" id="c'.$value->id.'-d'.$b->id.'-n1" name="c'.$value->id.'-d'.$b->id.'-n1" class="form-control"></p>
+                                                            </td>
+                                                            <td id="c'.$value->id.'-d'.$b->id.'-o">
+                                                                <p>
+                                                                <select id="c'.$value->id.'-d'.$b->id.'-o1" name="c'.$value->id.'-d'.$b->id.'-o1" class="form-control">
+                                                                    <option value="">choose a country</option>';
+
+
+
+                                                                    foreach ($country as $c => $row) {
+                                                                        echo '<option value="'.$row->abbrev.'">'.$row->abbrev.' - '.$row->name.'</option>';
+                                                                    }
+
+
+
+                                                                
+                                                            echo'</select>
+                                                                </p>
+                                                            </td>
+                                                            </tr>';
+                                                }
+                                                                
+                                                echo '
+                                                            </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>';
+                                                $cont++;
+                                            }else{
+                                                echo '<div role="tabpanel" class="tab-pane" id="c'.$value->id.'">
+                                                        <input type="hidden" name="day" value="c'.$value->id.'">
+                                                        <div class="table-responsive">
+                                                            <table class="table table-bordered table-striped">
+                                                            <thead>
+                                                                <tr>
+                                                                <th>Dining experience</th>
+                                                                <th>Number of seats available<br/>Number of guests to be seated</th>
+                                                                <th>Guest names (if known)</th>
+                                                                <th>Guest country*</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>';
+                                                                foreach ($seating as $a => $b) {
+                                                                    echo '<tr>
+                                                                            <td>'.$b->name.'<br/>'.date('H:i', strtotime($b->start)).' - '.date('H:i', strtotime($b->end)).'</td>
+                                                                            <td>
+                                                                                available: 22 <br/><button type="button" class="btn btn-default addguest" id="c'.$value->id.'-d'.$b->id.'" onclick="">+ Add guest</button>
+                                                                            </td>
+                                                                            <td id="c'.$value->id.'-d'.$b->id.'-n">
+                                                                                <p><input type="text" id="c'.$value->id.'-d'.$b->id.'-n1" name="c'.$value->id.'-d'.$b->id.'-n1" class="form-control"></p>
+                                                                            </td>
+                                                                            <td id="c'.$value->id.'-d'.$b->id.'-o">
+                                                                                <p>
+                                                                                <select id="c'.$value->id.'-d'.$b->id.'-o1" name="c'.$value->id.'-d'.$b->id.'-o1" class="form-control">
+                                                                                    <option value="">choose a country</option>';
+
+
+
+                                                                                    foreach ($country as $c => $row) {
+                                                                                        echo '<option value="'.$row->abbrev.'">'.$row->abbrev.' - '.$row->name.'</option>';
+                                                                                    }
+
+
+
+                                                                                
+                                                                            echo'</select>
+                                                                                </p>
+                                                                            </td>
+                                                                            </tr>';
+                                                                }
+                                                            echo '</tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>';
+                                            }
+                                        }
+
+
+                                     ?>
+                                        
+                                        
+                                </fieldset>
+                                <button class="btn btn-primary" type="submit" name="book-group">Submit booking request</button>
+                            </form>
                         </div>
-            <!-- for logged in user only - end -->
+
+                        <hr class="hr-extended">
+
+                        <div id="submission_confirmation" class="step">
+                            <h1 class="page-header">Submission confirmation</h1>
+                            <p>
+                            Sarah Rogers,<br/><br/>
+                            Thank you for your booking request 201500021.<br/><br/>
+
+                            You have requested booking for the following guests:
+                            </p>
+                            <ul>
+                            <li>C2 - 05.08.2015, Casual Dining 10:50 - 12:30 <br/>for Simon Bartley UK, David Hoey AU, Jane Stokie AU, Brigitte Collins AU</li>
+                            <li>C2 - 05.08.2015, Bar Service 13:15 - 14:45 <br/> for WS france sponsor, WS france sponsor, WS france sponsor, WS france sponsor, WS france sponsor, WS france sponsor, WS france sponsor FR,  WS france sponsor FR, WS france sponsor FR, WS france sponsor FR, WS france sponsor FR, WS france sponsor FR, WS france sponsor FR, WS france sponsor FR, WS france sponsor FR, WS france sponsor CA, WS france sponsor BE, WS france sponsor BE, Simon Bartley UK, David Hoey AU, Jane Stokie AU</li>
+                            <li>C4 - 07.08.2015, Bar Service 13:15 - 14:45 <br/> for Jane Stokie AU, Brigitte Collins AU, Skills Emirates UAE, Skills Emirates UAE, Skills Emirates UAE, Skills Emirates UAE</li>
+                            </ul>
+                            <p>
+                            Please note that these booking requests will need to be reviewed and confirmed by WSI. <br/>
+                            You will receive an email with the confirmation as soon as possible.
+                            </p>
+                        </div>
+            <!-- for guest only - end -->
+
+                        <hr class="hr-extended">
+
+            
                     </div>
 
             <footer>
